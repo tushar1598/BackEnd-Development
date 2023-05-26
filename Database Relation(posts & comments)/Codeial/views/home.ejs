@@ -1,0 +1,55 @@
+<h1>Welcome in the home page</h1>
+
+
+
+<h4>Posts</h4>
+<%if(locals.user){%>
+    <form action="/post/create" method="post">
+        <textarea name="content" id="" cols="30" rows="3" placeholder="type here........"></textarea>
+        <input type="submit" value="Post">
+    </form>
+
+    <%}%>
+
+
+
+        <div>
+
+            <ul>
+               <% for(let i=0; i<post.length; i++) {%>
+
+
+                    <li>
+
+                         <p>
+                            <%= post[i].content %>
+                            <%= post[i].user.name %>
+                        </p>
+                            
+
+                                <form action="/comment/create" method="post">
+                                    <input type="text" name="content" placeholder="type here......">
+                                    <input type="hidden" name="post" value="<%= post[i]._id %>">
+                                    <input type="submit" value="Add Comments">
+                                </form>
+
+                                  
+                           <% for(let j=0; j<post[i].comments.length; j++) {%>
+
+                            <p>
+                                <%= post[i].comments[j].content %>
+                            </p>
+                            <p>
+                                <%= post[i].comments[j].user.email %>
+                            </p>
+                            
+                            <%}%>
+
+
+
+                    </li>
+
+                    <%}%>
+            </ul>
+
+        </div>

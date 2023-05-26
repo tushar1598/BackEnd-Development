@@ -1,0 +1,85 @@
+<h1>Welcome in the home page</h1>
+
+
+
+<h4>Posts</h4>
+<%if(locals.user){%>
+    <form action="/post/create" method="post">
+        <textarea name="content" id="" cols="30" rows="3" placeholder="type here........"></textarea>
+        <input type="submit" value="Post">
+    </form>
+
+    <%}%>
+
+
+
+        <div>
+
+            <ul>
+
+                <% for(let i=0; i<post.length; i++) {%>
+
+                    <li>
+                        <p>
+                            <% if(locals.user && locals.user.id==post[i].user.id){ %>
+                                <small>
+                                    <a href="/post/destroy/<%= post[i].id %>">Delete</a>
+                                </small>
+                                <% } %>
+
+
+                                    <%= post[i].content %>
+                                        <%= post[i].user.name %>
+                        </p>
+
+                    </li>
+
+                        <% if(locals.user){ %>
+                            <form action="/comment/create" method="post">
+                                <input type="text" name="content" placeholder="type here......">
+                                <input type="hidden" name="post" value="<%= post[i]._id %>">
+                                <input type="submit" value="Add Comments">
+                            </form>
+                            <%}%>
+
+                    <% for(let j=0; j<post[i].comments.length; j++) {%>
+                        <li>
+                        <% if(locals.user && locals.user.id==post[i].comments[j].user.id){ %>
+                            <small>
+                                <a href="/comment/destroy/<%= post[i].comments[j].id %>">Delete</a>
+                            </small>
+                            <% } %>
+
+                                <p>
+                                    <%= post[i].comments[j].content %>
+                                </p>
+                                <p>
+                                    <%= post[i].comments[j].user.email %>
+                                </p>
+
+                        </li>
+                    <%}%>
+
+                <%}%>
+
+            </ul>
+
+        </div>
+
+
+
+        <section>
+
+            <h4>Friends</h4>
+
+            
+              <% for(let i=0; i<all_users.length; i++){ %>
+
+                <p>
+                   <a href="/user/profile/<%= all_users[i].id %>"><%= all_users[i].name %></a>
+                </p>
+
+              <% } %>
+            
+
+        </section>
